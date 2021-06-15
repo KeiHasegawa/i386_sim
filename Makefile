@@ -4,12 +4,16 @@ TAG = TAGS
 
 all:$(DLL) $(TAG)
 
+$(DLL):Makefile
+
 OBJS = sim.o callback.o
 
-$(DLL):$(OBJS)
-	g++ -g3 -o $@ $(OBJS)  -shared
+LD_FLAG = ../../bfd/libbfd.a ../../libiberty/libiberty.a
 
-EXTRA_FLAG = -fPIC -I../../include -I. -DPACKAGE
+$(DLL):$(OBJS)
+	g++ -g3 -o $@ $(OBJS) -shared $(LD_FLAG)
+
+EXTRA_FLAG = -fPIC -I../../include -I. -DPACKAGE -I../../bfd
 
 %.o : %.cpp
 	g++ -g3 -o $@ -c $< $(EXTRA_FLAG)
